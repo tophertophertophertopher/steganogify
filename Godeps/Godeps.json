@@ -1,0 +1,8 @@
+{
+	"ImportPath": "github.com/topherbullock/steganogify",
+	"GoVersion": "go1.4",
+	"Packages": [
+		"./..."
+	],
+	"Deps": []
+}
