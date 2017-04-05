@@ -1,25 +1,35 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"os"
+
+	flags "github.com/jessevdk/go-flags"
+	"github.com/topherbullock/steganogify/cmd"
 )
 
-func Encrypt(plaintext, key string) {
-
-}
-
-func Decrypt() {
-
-}
-
 func main() {
-	args := flag.Args()
+	args := os.Args[1:]
 
-	if len(args) < 1 {
-		fmt.Println(fmt.Errorf("missing required arguments"))
+	var command cmd.Command
+
+	switch args[0] {
+	case "decode":
+		command = &cmd.Decode{}
+	case "encode":
+		command = &cmd.Encode{}
+	}
+
+	if command == nil {
 		os.Exit(1)
 	}
 
+	parser := flags.NewParser(command, flags.Default)
+	parser.NamespaceDelimiter = "-"
+
+	_, err := parser.Parse()
+
+	if err != nil {
+		os.Exit(1)
+	}
+	command.Run()
 }
